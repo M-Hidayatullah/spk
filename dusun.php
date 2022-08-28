@@ -36,6 +36,7 @@ include './includes/header.php';
                 <td>'.$dusun[$i]['nama'].'</td>
                 <td>
                     <a href="hapus-dusun.php?id='.$dusun[$i]['id'].'" class="btn btn-danger">Hapus</a>
+                    <a href="masyarakat.php?id='.$dusun[$i]['id'].'" class="btn btn-success">Masyarakat</a>
                 </td>
             </tr>';
             }
