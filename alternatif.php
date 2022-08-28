@@ -145,11 +145,12 @@ include './includes/header.php';
 <script>
     $(function() {
         $.ajax({
-          url: "http://localhost/spk/ajax.php?table=alternatif",
+          url: "http://localhost/spk/ajax.php?table=masyarakat&id_dusun=<?= $_GET['id'] ?>",
           success: function(result){
             listDusun = JSON.parse(result)
+            console.log(listDusun)
             listDusun.forEach((i) => {
-              $('#alternatif_list').append(`<option value="${i.alternatif}">`)
+              $('#alternatif_list').append(`<option value="${i.nama}">`)
             })
           }
         })

@@ -1,10 +1,6 @@
 <?php 
 
 require 'includes/config.php';
-//$dbc->prepare("INSERT INTO masyarakat(nik, nama, no_kk, alamat) VALUES(:id, :alternatif)");
-
-echo "<pre>";
-print_r($_POST);
 
 for ($i=0; $i < count($_POST['nik']); $i++) { 
 	$sql = "INSERT INTO masyarakat(nik, no_kk, nama, alamat, tempat_lahir, tgl_lahir, jenis_kelamin, id_dusun) VALUES(

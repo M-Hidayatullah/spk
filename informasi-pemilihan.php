@@ -9,29 +9,30 @@ if (!isset($_SESSION['admin'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $err = false;
 
-    if (!preg_match ('/^[A-Z0-9 \'.-]{2,255}$/i', $_POST['keterangan'])) {
+    if (!preg_match ('/^[A-Z0-9 \'.-]{2,255}$/i', substr(strstr($_POST['keterangan']," "), 1))) {
         $err = true;
     }
 
     if (!$err) {
       unset($_SESSION['errInformasi']);
       $status = "id";
+      $ket = substr(strstr($_POST['keterangan']," "), 1);
 
       if (isset($_SESSION['id'])) {
          $req = $dbc->prepare('UPDATE pemilihan SET keterangan = ? WHERE id = ?');
-         $req->bindParam(1, $_POST['keterangan']);
+         $req->bindParam(1, $ket);
          $req->bindParam(2, $_SESSION['id']);
          $req->execute();
       } else {
          $req = $dbc->prepare('INSERT INTO pemilihan VALUES(NULL, ?, NOW(), ?)');
-         $req->bindParam(1, $_POST['keterangan']);
+         $req->bindParam(1, $ket);
          $req->bindParam(2, $status);
          $req->execute();
 
          $_SESSION['id'] = $dbc->lastInsertId();
       }
 
-      header('Location: alternatif.php');
+      header('Location: alternatif.php?id='.explode(' ', $_POST['keterangan'])[0]);
       exit;
     } else {
       $_SESSION['errInformasi'] = true;
@@ -58,7 +59,7 @@ include './includes/header.php';
     <form method="post">
         <div class="form-group">
             <label for="keterangan">Keterangan</label>
-            <input list="keterangan_list" type="text" class="form-control" name="keterangan" id="keterangan" placeholder="keterangan"
+            <input autocomplete="off" list="keterangan_list" type="text" class="form-control" name="keterangan" id="keterangan" placeholder="keterangan"
             <?php if (isset($pemilihan)) echo 'value="'.$pemilihan['keterangan'].'"'?>
             >
             <datalist id="keterangan_list"></datalist>
@@ -85,7 +86,7 @@ include './includes/header.php';
       success: function(result){
         listDusun = JSON.parse(result)
         listDusun.forEach((i) => {
-          $('#keterangan_list').append(`<option value="${i.nama}">`)
+          $('#keterangan_list').append(`<option value="${i.id} ${i.nama}">`)
         })
       }
     })
