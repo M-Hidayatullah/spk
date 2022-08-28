@@ -58,9 +58,10 @@ include './includes/header.php';
     <form method="post">
         <div class="form-group">
             <label for="keterangan">Keterangan</label>
-            <input type="text" class="form-control" name="keterangan" id="keterangan" placeholder="keterangan"
+            <input list="keterangan_list" type="text" class="form-control" name="keterangan" id="keterangan" placeholder="keterangan"
             <?php if (isset($pemilihan)) echo 'value="'.$pemilihan['keterangan'].'"'?>
             >
+            <datalist id="keterangan_list"></datalist>
         </div>
         <button type="submit" class="btn btn-primary">Alternatif &raquo;</button>
     </form>
@@ -68,12 +69,29 @@ include './includes/header.php';
     <?php
     if (isset($_SESSION['errInformasi'])) {
         echo '<div class="alert alert-warning alert-dismissible" role="alert">
+
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <strong>Keterangan</strong> tidak boleh kosong.
             </div>';
     }
     ?>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(() => {
+
+    $.ajax({
+      url: "http://localhost/spk/ajax.php",
+      success: function(result){
+        listDusun = JSON.parse(result)
+        listDusun.forEach((i) => {
+          $('#keterangan_list').append(`<option value="${i.nama}">`)
+        })
+      }
+    })
+
+  })
+</script>
 
 <?php
 include './includes/footer.php';
