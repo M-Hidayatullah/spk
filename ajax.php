@@ -5,8 +5,13 @@ if (!isset($_SESSION['admin'])) {
     header('Location: login.php');
     exit;
 }
+$table = 'dusun';
 
-$req = $dbc->prepare("SELECT * FROM dusun ");
+if (isset($_GET['table'])) {
+	$table = $_GET['table'];
+}
+
+$req = $dbc->prepare("SELECT * FROM $table ");
 $req->execute();
 
 $data = $req->fetchAll();

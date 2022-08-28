@@ -101,29 +101,30 @@ include './includes/header.php';
                 for ($i = 0; $i < count($_SESSION['alternatif']); $i++) {
                     if (in_array($i, $_SESSION['errAlternatifData'])) {
                         echo '<div class="form-group has-error">
-                                <input type="text" class="form-control" name="alternatif[]" placeholder="Alternatif">
+                                <input list="alternatif_list" type="text" class="form-control" name="alternatif[]" placeholder="Alternatif">
                             </div>';
                     } else {
                         echo '<div class="form-group">
-                                <input type="text" class="form-control" name="alternatif[]" placeholder="Alternatif" value="'.$_SESSION['alternatif'][$i].'">
+                                <input list="alternatif_list" type="text" class="form-control" name="alternatif[]" placeholder="Alternatif" value="'.$_SESSION['alternatif'][$i].'">
                             </div>';
                     }
                 }
             } else if (isset($alternatif) && $alternatif) {
                 for ($i = 0; $i < count($alternatif); $i++) {
                     echo '<div class="form-group">
-                            <input type="text" class="form-control" name="alternatif[]" placeholder="Alternatif" value="'.$alternatif[$i]['alternatif'].'">
+                            <input list="alternatif_list" type="text" class="form-control" name="alternatif[]" placeholder="Alternatif" value="'.$alternatif[$i]['alternatif'].'">
                         </div>';
                 }
             } else {
                 echo '<div class="form-group">
-                        <input type="text" class="form-control" name="alternatif[]" placeholder="Alternatif">
+                        <input list="alternatif_list" type="text" class="form-control" name="alternatif[]" placeholder="Alternatif">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="alternatif[]" placeholder="Alternatif">
+                        <input list="alternatif_list" type="text" class="form-control" name="alternatif[]" placeholder="Alternatif">
                     </div>';
             }
             ?>
+            <datalist id="alternatif_list"></datalist>
         </div>
             <div class="text-right">
                 <button class="btn btn-success" id="tambah_alternatif">Tambah</button>
@@ -143,9 +144,19 @@ include './includes/header.php';
 </div>
 <script>
     $(function() {
+        $.ajax({
+          url: "http://localhost/spk/ajax.php?table=alternatif",
+          success: function(result){
+            listDusun = JSON.parse(result)
+            listDusun.forEach((i) => {
+              $('#alternatif_list').append(`<option value="${i.alternatif}">`)
+            })
+          }
+        })
+
         $('#tambah_alternatif').click(function(e) {
             e.preventDefault();
-            $('#alternatif').append('<div class="form-group"><input type="text" class="form-control" name="alternatif[]" placeholder="Alternatif"></div>');
+            $('#alternatif').append('<div class="form-group"><input list="alternatif_list" type="text" class="form-control" name="alternatif[]" placeholder="Alternatif"></div>');
         });
 
         $('#hapus_alternatif').click(function(e) {
