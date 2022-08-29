@@ -45,7 +45,7 @@ include './includes/header.php';
                     <td> <?= $masyarakat[$i]['nama'] ?></td>
                     <td>
                         <a href="hapus-masyarakat.php?id_dusun=<?= $_GET['id'] ?>&id=<?= $masyarakat[$i]['id_masyarakat'] ?>" class="btn btn-danger" >Hapus</a>
-                        <a href="edit-masyarakat.php" class="btn btn-warning" >Edit</a>
+                        <a href="edit-masyarakat.php?id=<?= $_GET['id'] ?>&id_masyarakat=<?= $masyarakat[$i]['id_masyarakat'] ?>" class="btn btn-warning" >Edit</a>
                     </td>
                 </tr>
                 <?php }
