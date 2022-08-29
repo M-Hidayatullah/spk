@@ -34,16 +34,21 @@ include './includes/header.php';
                 <tr>
                     <th class="col-md-1">No</th>
                     <th class="col-md-4">Nama</th>
+                    <th class="col-md-4">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                for($i = 0; $i < count($masyarakat); $i++) {
-                    echo '<tr>
-                    <td>'.($i+1).'</td>
-                    <td>'.$masyarakat[$i]['nama'].'</td>
-                </tr>';
-                }
+                for($i = 0; $i < count($masyarakat); $i++) { ?>
+                <tr>
+                    <td> <?= ($i+1) ?></td>
+                    <td> <?= $masyarakat[$i]['nama'] ?></td>
+                    <td>
+                        <a href="hapus-masyarakat.php?id_dusun=<?= $_GET['id'] ?>&id=<?= $masyarakat[$i]['id_masyarakat'] ?>" class="btn btn-danger" >Hapus</a>
+                        <a href="edit-masyarakat.php" class="btn btn-warning" >Edit</a>
+                    </td>
+                </tr>
+                <?php }
                 ?>
             </tbody>
         </table>
