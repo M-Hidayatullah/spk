@@ -101,7 +101,7 @@ include './includes/header.php';
                 for ($i = 0; $i < count($_SESSION['alternatif']); $i++) {
                     if (in_array($i, $_SESSION['errAlternatifData'])) {
                         echo '<div class="form-group has-error">
-                                <input list="alternatif_list" type="text" class="form-control" name="alternatif[]" placeholder="Alternatif">
+                                <input list="alternatif_list" type="text"  class="form-control inputan" name="alternatif[]" placeholder="Alternatif">
                             </div>';
                     } else {
                         echo '<div class="form-group">
@@ -117,10 +117,10 @@ include './includes/header.php';
                 }
             } else {
                 echo '<div class="form-group">
-                        <input list="alternatif_list" type="text" class="form-control" name="alternatif[]" placeholder="Alternatif">
+                        <input list="alternatif_list" type="text"  class="form-control inputan" name="alternatif[]" placeholder="Alternatif">
                     </div>
                     <div class="form-group">
-                        <input list="alternatif_list" type="text" class="form-control" name="alternatif[]" placeholder="Alternatif">
+                        <input list="alternatif_list" type="text"  class="form-control inputan" name="alternatif[]" placeholder="Alternatif">
                     </div>';
             }
             ?>
@@ -143,21 +143,29 @@ include './includes/header.php';
     </form>
 </div>
 <script>
+
     $(function() {
-        $.ajax({
-          url: "http://localhost/spk/ajax.php?table=masyarakat&id_dusun=<?= $_GET['id'] ?>",
-          success: function(result){
-            listDusun = JSON.parse(result)
-            console.log(listDusun)
-            listDusun.forEach((i) => {
-              $('#alternatif_list').append(`<option value="${i.nama}">`)
+
+        $('.inputan').on('input',  () => {
+            var cari = $(this).val()
+            // console.log(cari)
+            $('#alternatif_list').html('')
+
+            $.ajax({
+              url: `http://localhost/spk/ajax.php?table=masyarakat&id_dusun=<?= $_GET['id'] ?>&kolom=nama&cari=${cari}`,
+              success: function(result){
+                listDusun = JSON.parse(result)
+                // console.log(listDusun)
+                listDusun.forEach((i) => {
+                  $('#alternatif_list').append(`<option value="${i.nama}">`)
+                })
+              }
             })
-          }
         })
 
         $('#tambah_alternatif').click(function(e) {
             e.preventDefault();
-            $('#alternatif').append('<div class="form-group"><input list="alternatif_list" type="text" class="form-control" name="alternatif[]" placeholder="Alternatif"></div>');
+            $('#alternatif').append('<div class="form-group"><input list="alternatif_list" type="text"  class="form-control inputan" name="alternatif[]" placeholder="Alternatif"></div>');
         });
 
         $('#hapus_alternatif').click(function(e) {
