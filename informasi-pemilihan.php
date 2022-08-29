@@ -59,7 +59,7 @@ include './includes/header.php';
     <form method="post">
         <div class="form-group">
             <label for="keterangan">Keterangan</label>
-            <input autocomplete="off" list="keterangan_list" type="text" class="form-control" name="keterangan" id="keterangan" placeholder="keterangan"
+            <input autocomplete="off" list="keterangan_list" type="text" class="form-control" name="keterangan" id="keterangan" oninput="ambil()" placeholder="keterangan"
             <?php if (isset($pemilihan)) echo 'value="'.$pemilihan['keterangan'].'"'?>
             >
             <datalist id="keterangan_list"></datalist>
@@ -79,19 +79,21 @@ include './includes/header.php';
 </div>
 
 <script type="text/javascript">
-  $(document).ready(() => {
-
+  function ambil() {
+    var cari = $('#keterangan').val()
+    $('#keterangan_list').html(``)
+    console.log(cari)
     $.ajax({
-      url: "http://localhost/spk/ajax.php",
+      url: `http://localhost/spk/ajax.php?cari=${cari}&kolom=nama`,
       success: function(result){
         listDusun = JSON.parse(result)
+        console.log(result)
         listDusun.forEach((i) => {
           $('#keterangan_list').append(`<option value="${i.id} ${i.nama}">`)
         })
       }
     })
-
-  })
+  }
 </script>
 
 <?php

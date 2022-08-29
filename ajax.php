@@ -9,12 +9,15 @@ $table = 'dusun';
 
 if (isset($_GET['table'])) {
 	$table = $_GET['table'];
-	if (isset($_GET['id_dusun'])) {
-		$table .= " where id_dusun = {$_GET['id_dusun']}";
-	}
 }
 
-$req = $dbc->prepare("SELECT * FROM $table ");
+$table .= " where {$_GET['kolom']} like '%{$_GET['cari']}%' ";
+
+if (isset($_GET['id_dusun'])) {
+	$table .= " and id_dusun = {$_GET['id_dusun']}";
+}
+
+$req = $dbc->prepare("SELECT * FROM $table limit 10");
 $req->execute();
 
 $data = $req->fetchAll();
